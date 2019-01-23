@@ -1,0 +1,37 @@
+{% extends "libmgmt/layout.html" %}
+
+{% block title %}
+  Library Management Register
+{% endblock title %}
+
+{% block header %}
+  Register here!
+{% endblock header %}
+
+{% block maincontent %}
+  <form method="POST" action="{% url 'libmgmt:createuser' %}">
+    {% csrf_token %}
+    <p>
+      <input type="text" placeholder="Enter Username" name="username">
+    </p>
+    <p>
+      <input type="password" placeholder="Enter Password" name="password">
+    </p>
+    <p>
+      <label>Country</label>
+      <select name="country">
+        <option value="IN">India</option>
+        <option value="SE">South America</option>
+        <option value="FR">France</option>
+      </select>
+    </p>
+    <p>
+      <label>Gender</label>
+      <input type="radio" name="gender" value="M">Male&nbsp;&nbsp;
+      <input type="radio" name="gender" value="F">Female
+    </p>
+    <p>
+      <input type="submit" value="Register">
+    </p>
+  </form>
+{% endblock maincontent %}

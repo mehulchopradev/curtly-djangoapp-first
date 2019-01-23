@@ -1,0 +1,23 @@
+.banner {
+  width: 1300px;
+  height: 350px;
+  display: block;
+}
+
+.menu > a {
+  margin-right: 1rem;
+}
+
+.main-content {
+  margin-top: 2rem;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  background-color: black;
+  color: white;
+  display: inline-block;
+  width: 100%;
+  padding: 1rem;
+}

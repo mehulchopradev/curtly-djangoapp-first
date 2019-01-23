@@ -1,0 +1,26 @@
+{% extends "libmgmt/layout.html" %}
+
+{% block title %}
+  Library Management Home
+{% endblock title %}
+
+{% block header %}
+  Welcome
+{% endblock header %}
+
+{% block maincontent %}
+  <form>
+    <p>
+      <input type="text" placeholder="Enter Username">
+    </p>
+    <p>
+      <input type="password" placeholder="Enter Password">
+    </p>
+    <p>
+      <input type="submit" value="Login">
+    </p>
+    <p>
+      <a href="{% url 'libmgmt:register' %}">New user? Sign in here</a>
+    </p>
+  </form>
+{% endblock maincontent %}

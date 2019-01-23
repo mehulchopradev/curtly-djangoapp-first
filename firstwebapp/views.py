@@ -12,4 +12,13 @@ def aboutus(request):
   return render(request, 'aboutus.html')
 
 def contactus(request):
-  return render(request, 'contactus.html')
+  # database code to retrieve the phone and the email
+  phone = '9898945534'
+  email = 'mehul@gmail.com'
+
+  context_data = {
+    'phone': phone,
+    'email': email
+  }
+
+  return render(request, 'contactus.html', context_data)

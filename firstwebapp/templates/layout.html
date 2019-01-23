@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>
+    {% block title %}
+    {% endblock title %}
+  </title>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+  <img class="banner" src="{% static 'images/tech_talk.jpg' %}" alt="">
+  <h1>
+    {% block header %}
+    {% endblock header %}
+  </h1>
+  <div class="menu">
+    <a href="{% url 'aboutus' %}">About Us</a>
+    <a href="{% url 'contactus' %}">Contact Us</a>
+  </div>
+  <div class="main-content">
+    {% block maincontent %}
+    {% endblock maincontent %}
+  </div>
+  <footer>
+    Copyrighted 2019. All rights reserved
+  </footer>
+</body>
+</html>
