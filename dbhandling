@@ -1,0 +1,7 @@
+- Django Models
+
+- ORM (Object Relational Mapping)
+Object                          RDBMS(SQL)
+- Model class                   - table
+- Attributes of the class       - Columns
+- Objects                       - rows (tuples)

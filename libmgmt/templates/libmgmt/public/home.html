@@ -9,12 +9,13 @@
 {% endblock header %}
 
 {% block maincontent %}
-  <form>
+  <form method="POST" action="{% url 'libmgmt:authuser' %}">
+    {% csrf_token %}
     <p>
-      <input type="text" placeholder="Enter Username">
+      <input type="text" placeholder="Enter Username" name="username">
     </p>
     <p>
-      <input type="password" placeholder="Enter Password">
+      <input type="password" placeholder="Enter Password" name="password">
     </p>
     <p>
       <input type="submit" value="Login">

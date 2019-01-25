@@ -1,0 +1,37 @@
+{% extends "libmgmt/layout.html" %}
+
+{% block title %}
+  Book Details
+{% endblock title %}
+
+{% block header %}
+  Book Details
+{% endblock header %}
+
+{% block maincontent %}
+  <h3>{{ book.title }}</h3>
+  <p>
+    Price : {{ book.price }}
+  </p>
+  <p>
+    Pages : {{ book.pages }}
+  </p>
+  <h3>Publication House</h3>
+  <p>
+    {{ book.publication.name }}
+  </p>
+  <p>
+    Ratings: {{ book.publication.ratings }}
+  </p>
+  <h3>Reviews</h3>
+  {% if book.review_set.all %}
+    {% for review in book.review_set.all %}
+      <div>
+        <i>{{ review.reviewer }}</i><br>
+        <p>{{ review.description }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+      No Reviews Yet
+  {% endif %}
+{% endblock maincontent %}
