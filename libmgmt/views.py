@@ -4,57 +4,75 @@ from libmgmt.models import Student, Book
 
 # Create your views here.
 
-def showhome(request):
-  return render(request, 'libmgmt/public/home.html')
+def logout(request):
+  # destroy the session and the data stored in the session for this request
+  session_data = request.session
+  session_data.flush() # destroy the session
 
-def showregister(request):
-  return render(request, 'libmgmt/public/register.html')
-
-def authuser(request):
-  username = request.POST['username']
-  password = request.POST['password']
-
-  l = Student.objects.filter(username=username, password=password)
-  if l:
-    return HttpResponseRedirect(reverse('libmgmt:landing'))
-  else:
-    return HttpResponseRedirect(reverse('libmgmt:home'))
+  return HttpResponseRedirect(reverse('libmgmt:home'))
 
 def showlanding(request):
+  session_data = request.session
+  if 'username' not in session_data:
+    return HttpResponseRedirect(reverse('libmgmt:home'))
+
+  studentid = session_data['userid']
   booklist = Book.objects.order_by('-price')
+  for book in booklist:
+    if not book.noofcopies:
+      book.cannotissue = True
+    else:
+      students = book.student_set.all()
+      for student in students:
+        if student.id == studentid:
+          book.bookissued = True # derived property to a model
+          break
+      else:
+        # the book has not been issued to the currently logged in student
+        if book.noofcopies == len(students):
+          book.cannotissue = True
+        else:
+          book.cannotissue = False
+          book.bookissued = False # derived property to a model
+
   context_data = {
-    'booklist': booklist
+    'booklist': booklist,
+    'username': session_data['username']
   }
   return render(request, 'libmgmt/private/landing.html', context_data)
 
 def bookdetails(request, bookid):
   # Get the Book object for the particular book asked for
   # id ????
+  session_data = request.session
+  if 'username' not in session_data:
+    return HttpResponseRedirect(reverse('libmgmt:home'))
+
   book = Book.objects.get(pk=bookid)
   context_data = {
-    'book': book
+    'book': book,
+    'username': session_data['username']
   }
   return render(request, 'libmgmt/private/bookdetails.html', context_data)
 
-def createuser(request):
-  username = request.POST['username']
-  password = request.POST['password']
-  country = request.POST['country']
-  gender = request.POST['gender']
-
-  s = Student(username=username, password=password, gender=gender, country=country)
-
-  try:
-    s.save()
-  except Exception:
-    return HttpResponse('Error in registration')
-  else:
+def issuebook(request, bookid):
+  session_data = request.session
+  if 'username' not in session_data:
     return HttpResponseRedirect(reverse('libmgmt:home'))
 
-  '''print(username)
-  print(password)
-  print(country)
-  print(gender)'''
+  book = Book.objects.get(pk=bookid)
+  student = Student.objects.get(pk=session_data['userid'])
 
-  # A response consisting of the redirect url (response header) will be sent to the browser
-  # Browser interprets the redirect url from the response header and makes another request to the redirect url
+  student.booksissued.add(book)
+
+  return HttpResponseRedirect(reverse('libmgmt:landing'))
+
+def returnbook(request, bookid):
+  session_data = request.session
+  if 'username' not in session_data:
+    return HttpResponseRedirect(reverse('libmgmt:home'))
+
+  student = Student.objects.get(pk=session_data['userid'])
+  student.booksissued.remove(bookid)
+
+  return HttpResponseRedirect(reverse('libmgmt:landing'))

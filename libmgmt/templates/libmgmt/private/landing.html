@@ -1,5 +1,4 @@
 {% extends "libmgmt/layout.html" %}
-
 {% block title %}
   Welcome User
 {% endblock title %}
@@ -8,6 +7,11 @@
   Welcome
 {% endblock header %}
 
+{% block loggedinuser %}
+  <h3>Welcome {{ username }}</h3>
+  <a href="{% url 'libmgmt:logout' %}">Logout</a>
+{% endblock loggedinuser %}
+
 {% block maincontent %}
   <table border="1">
     <thead>
@@ -15,6 +19,7 @@
         <th>Title</th>
         <th>Price</th>
         <th>Pages</th>
+        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -26,6 +31,15 @@
           <td>{{ book.pages }}</td>
           <td>
             <a href="{% url 'libmgmt:bookdetails' book.id %}">Details</a>
+          </td>
+          <td>
+            {% if book.cannotissue %}
+              <i>Cannot Issue</i>
+            {% elif book.bookissued %}
+              <a href="{% url 'libmgmt:returnbook' book.id %}">Return Book</a>
+            {% else %}
+              <a href="{% url 'libmgmt:issuebook' book.id %}">Issue Book</a>
+            {% endif %}
           </td>
         </tr>
       {% endfor %}

@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="{% static 'libmgmt/css/app.css' %}">
 </head>
 <body>
+  {% block loggedinuser %}
+  {% endblock loggedinuser %}
   <img class="banner" src="{% static 'libmgmt/images/library.jpeg' %}" alt="">
   <h1>
     {% block header %}
