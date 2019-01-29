@@ -2,11 +2,11 @@ from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from libmgmt.models import Student, Book
 
-def showhome(request):
-  return render(request, 'libmgmt/public/home.html')
+'''def showhome(request):
+  return render(request, 'libmgmt/public/home.html')'''
 
-def showregister(request):
-  return render(request, 'libmgmt/public/register.html')
+'''def showregister(request):
+  return render(request, 'libmgmt/public/register.html')'''
 
 def authuser(request):
   username = request.POST['username']

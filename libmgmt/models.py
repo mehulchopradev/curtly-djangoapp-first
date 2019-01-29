@@ -20,6 +20,7 @@ class Book(models.Model):
   price = models.FloatField(null=True)
   pages = models.IntegerField(null=False)
   noofcopies = models.IntegerField(null=False, default=0)
+  published = models.DateField(null=False)
   publication = models.ForeignKey(PublicationHouse, on_delete=models.CASCADE) # fetched eagerly
 
   # review_set # fetched lazily

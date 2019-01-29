@@ -1,6 +1,8 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
-from libmgmt.models import Student, Book
+from libmgmt.models import Student, Book, BooksIssued
+from datetime import date
+from libmgmt.forms import ContactUsForm
 
 # Create your views here.
 
@@ -17,13 +19,15 @@ def showlanding(request):
     return HttpResponseRedirect(reverse('libmgmt:home'))
 
   studentid = session_data['userid']
+  student = Student.objects.get(pk=studentid)
+
   booklist = Book.objects.order_by('-price')
   for book in booklist:
     if not book.noofcopies:
       book.cannotissue = True
     else:
-      students = book.student_set.all()
-      for student in students:
+      # students = book.student_set.all()
+      '''for student in students:
         if student.id == studentid:
           book.bookissued = True # derived property to a model
           break
@@ -33,7 +37,19 @@ def showlanding(request):
           book.cannotissue = True
         else:
           book.cannotissue = False
-          book.bookissued = False # derived property to a model
+          book.bookissued = False # derived property to a model'''
+      try:
+        bookissued = BooksIssued.objects.get(student=student, book=book, active='Y')
+      except BooksIssued.DoesNotExist:
+        students = BooksIssued.objects.filter(book=book, active='Y')
+
+        if book.noofcopies == len(students):
+          book.cannotissue = True
+        else:
+          book.cannotissue = False
+          book.bookissued = False # derived property to a model'''
+      else:
+        book.bookissued = True
 
   context_data = {
     'booklist': booklist,
@@ -63,7 +79,9 @@ def issuebook(request, bookid):
   book = Book.objects.get(pk=bookid)
   student = Student.objects.get(pk=session_data['userid'])
 
-  student.booksissued.add(book)
+  # student.booksissued.add(book)
+  bookissued = BooksIssued(student=student, book=book)
+  bookissued.save()
 
   return HttpResponseRedirect(reverse('libmgmt:landing'))
 
@@ -73,6 +91,21 @@ def returnbook(request, bookid):
     return HttpResponseRedirect(reverse('libmgmt:home'))
 
   student = Student.objects.get(pk=session_data['userid'])
-  student.booksissued.remove(bookid)
+  book = Book.objects.get(pk=bookid)
+
+  # student.booksissued.remove(bookid)
+
+  bookissued = BooksIssued.objects.get(student=student, book=book)
+  bookissued.returndate = date.today()
+  bookissued.active = 'N'
+  bookissued.save()
 
   return HttpResponseRedirect(reverse('libmgmt:landing'))
+
+def showcontactus(request):
+  c = ContactUsForm()
+  context_data = {
+    'form': c
+  }
+
+  return render(request, 'libmgmt/private/contactus.html', context_data)

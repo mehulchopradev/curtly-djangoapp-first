@@ -1,0 +1,22 @@
+{% extends "libmgmt/layout.html" %}
+
+{% block title %}
+  Contact us
+{% endblock title %}
+
+{% block header %}
+  Contact us
+{% endblock header %}
+
+{% block loggedinuser %}
+  <h3>Welcome {{ username }}</h3>
+  <a href="{% url 'libmgmt:logout' %}">Logout</a>
+{% endblock loggedinuser %}
+
+{% block maincontent %}
+  <form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+  </form>
+{% endblock maincontent %}
