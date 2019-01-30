@@ -9,9 +9,9 @@
 {% endblock header %}
 
 {% block maincontent %}
-  <form method="POST" action="{% url 'libmgmt:createuser' %}">
+  <form method="POST" action="{% url 'libmgmt:signup' %}" novalidate="novalidate">
     {% csrf_token %}
-    <p>
+    <!--<p>
       <input type="text" placeholder="Enter Username" name="username">
     </p>
     <p>
@@ -29,7 +29,8 @@
       <label>Gender</label>
       <input type="radio" name="gender" value="M">Male&nbsp;&nbsp;
       <input type="radio" name="gender" value="F">Female
-    </p>
+    </p>-->
+    {{ form.as_p }}
     <p>
       <input type="submit" value="Register">
     </p>

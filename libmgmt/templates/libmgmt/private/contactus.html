@@ -14,7 +14,7 @@
 {% endblock loggedinuser %}
 
 {% block maincontent %}
-  <form action="" method="POST">
+  <form action="{% url 'libmgmt:contactus' %}" method="POST" novalidate="novalidate">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Save">

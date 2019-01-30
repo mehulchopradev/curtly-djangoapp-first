@@ -1,6 +1,8 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from libmgmt.models import Student, Book
+from django.views.generic.edit import FormView
+from libmgmt.forms import RegisterForm
 
 '''def showhome(request):
   return render(request, 'libmgmt/public/home.html')'''
@@ -49,3 +51,26 @@ def createuser(request):
 
   # A response consisting of the redirect url (response header) will be sent to the browser
   # Browser interprets the redirect url from the response header and makes another request to the redirect url
+
+class RegisterView(FormView):
+  template_name = 'libmgmt/public/register.html'
+  form_class = RegisterForm
+
+  def form_valid(self, form):
+    '''data = form.cleaned_data
+
+    s = Student(**data)
+
+    try:
+      s.save()
+    except Exception:
+      return HttpResponse('Error in registration')
+    else:
+      return HttpResponseRedirect(reverse('libmgmt:home'))'''
+
+    try:
+      s = form.save()
+    except Exception:
+      return HttpResponse('Error in registration')
+    else:
+      return HttpResponseRedirect(reverse('libmgmt:home'))

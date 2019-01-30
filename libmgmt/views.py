@@ -1,5 +1,7 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views import View
+from django.views.generic.edit import FormView
 from libmgmt.models import Student, Book, BooksIssued
 from datetime import date
 from libmgmt.forms import ContactUsForm
@@ -102,10 +104,51 @@ def returnbook(request, bookid):
 
   return HttpResponseRedirect(reverse('libmgmt:landing'))
 
-def showcontactus(request):
-  c = ContactUsForm()
+'''def showcontactus(request):
+  if request.method == 'POST':
+    c = ContactUsForm(request.POST)
+    if c.is_valid():
+      data = c.cleaned_data
+      print(data)
+      return HttpResponseRedirect(reverse('libmgmt:landing'))
+  else:
+    c = ContactUsForm()
+  
   context_data = {
     'form': c
   }
+  return render(request, 'libmgmt/private/contactus.html', context_data)'''
 
-  return render(request, 'libmgmt/private/contactus.html', context_data)
+'''class ContactUsView(View):
+  def get(self, request):
+    c = ContactUsForm()
+    context_data = {
+      'form': c
+    }
+
+    return render(request, 'libmgmt/private/contactus.html', context_data)
+  
+  def post(self, request):
+    c = ContactUsForm(request.POST)
+    if c.is_valid():
+      data = c.cleaned_data
+      print(data)
+
+      return HttpResponseRedirect(reverse('libmgmt:landing'))
+    else:
+      context_data = {
+        'form': c
+      }
+
+      return render(request, 'libmgmt/private/contactus.html', context_data)'''
+
+class ContactUsView(FormView):
+  template_name = 'libmgmt/private/contactus.html'
+  form_class = ContactUsForm
+
+  def form_valid(self, form):
+    data = form.cleaned_data
+    print(data)
+
+    return HttpResponseRedirect(reverse('libmgmt:landing'))
+      

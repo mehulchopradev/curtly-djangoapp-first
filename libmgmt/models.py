@@ -46,6 +46,7 @@ class Student(models.Model):
   password = models.IntegerField(null=False)
   country = models.CharField(null=False, max_length=5)
   gender = models.CharField(null=True, max_length=1)
+  profilepic = models.ImageField(null=True, blank=True)
   books_issued = models.ManyToManyField(Book, through='BooksIssued')
 
   # Book - One to many

@@ -16,5 +16,6 @@ urlpatterns = [
   path('logout/', views.logout, name='logout'),
   path('issue-books/<int:bookid>', views.issuebook, name='issuebook'),
   path('return-books/<int:bookid>', views.returnbook, name='returnbook'),
-  path('contact-us/', views.showcontactus, name='contactus')
+  path('contact-us/', views.ContactUsView.as_view(), name='contactus'),
+  path('sign-up/', public_views.RegisterView.as_view(), name='signup')
 ]
