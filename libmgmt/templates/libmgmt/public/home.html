@@ -1,5 +1,7 @@
 {% extends "libmgmt/layout.html" %}
 
+{% load static %}
+
 {% block title %}
   Library Management Home
 {% endblock title %}
@@ -24,4 +26,5 @@
       <a href="{% url 'libmgmt:signup' %}">New user? Sign in here</a>
     </p>
   </form>
+  <script src="{% static 'libmgmt/js/first.js' %}"></script>
 {% endblock maincontent %}

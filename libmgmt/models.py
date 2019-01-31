@@ -1,6 +1,10 @@
 from django.db import models
 from datetime import date
 
+def handleprofilepicupload(student, filename):
+  # /Users/mehul.chopra/Documents/curtly-webapp/
+  return 'profilepics/{0}/{1}_{2}'.format(student.username, date.today(), filename)
+
 # Create your models here.
 class PublicationHouse(models.Model):
   # id
@@ -46,7 +50,7 @@ class Student(models.Model):
   password = models.IntegerField(null=False)
   country = models.CharField(null=False, max_length=5)
   gender = models.CharField(null=True, max_length=1)
-  profilepic = models.ImageField(null=True, blank=True)
+  profilepic = models.ImageField(null=True, blank=True, upload_to=handleprofilepicupload)
   books_issued = models.ManyToManyField(Book, through='BooksIssued')
 
   # Book - One to many

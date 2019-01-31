@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from libmgmt.models import Student, Book
 from django.views.generic.edit import FormView
 from libmgmt.forms import RegisterForm
+from libmgmt.tasks import sendverificationemail
 
 '''def showhome(request):
   return render(request, 'libmgmt/public/home.html')'''
@@ -73,4 +74,5 @@ class RegisterView(FormView):
     except Exception:
       return HttpResponse('Error in registration')
     else:
+      sendverificationemail.delay(s.username) # asynchronously as a separate message driven process
       return HttpResponseRedirect(reverse('libmgmt:home'))

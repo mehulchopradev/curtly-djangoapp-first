@@ -5,6 +5,7 @@ from django.views.generic.edit import FormView
 from libmgmt.models import Student, Book, BooksIssued
 from datetime import date
 from libmgmt.forms import ContactUsForm
+from django.conf import settings
 
 # Create your views here.
 
@@ -151,4 +152,17 @@ class ContactUsView(FormView):
     print(data)
 
     return HttpResponseRedirect(reverse('libmgmt:landing'))
-      
+
+def getprofilepic(request):
+  session_data = request.session
+  if 'username' not in session_data:
+    return HttpResponseRedirect(reverse('libmgmt:home'))
+
+  student = Student.objects.get(pk=session_data['userid'])
+  if student.profilepic:
+    profilepicpath = student.profilepic.path
+  else:
+    profilepicpath = settings.MEDIA_ROOT + 'no_profile.jpg'
+
+  with open(profilepicpath, mode='rb') as fp:
+    return HttpResponse(fp.read(), content_type='image/*')

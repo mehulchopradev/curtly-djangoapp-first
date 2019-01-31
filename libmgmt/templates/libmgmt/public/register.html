@@ -9,7 +9,7 @@
 {% endblock header %}
 
 {% block maincontent %}
-  <form method="POST" action="{% url 'libmgmt:signup' %}" novalidate="novalidate">
+  <form method="POST" enctype="multipart/form-data" action="{% url 'libmgmt:signup' %}" novalidate="novalidate">
     {% csrf_token %}
     <!--<p>
       <input type="text" placeholder="Enter Username" name="username">

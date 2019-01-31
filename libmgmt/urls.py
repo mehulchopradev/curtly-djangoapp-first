@@ -17,5 +17,6 @@ urlpatterns = [
   path('issue-books/<int:bookid>', views.issuebook, name='issuebook'),
   path('return-books/<int:bookid>', views.returnbook, name='returnbook'),
   path('contact-us/', views.ContactUsView.as_view(), name='contactus'),
-  path('sign-up/', public_views.RegisterView.as_view(), name='signup')
+  path('sign-up/', public_views.RegisterView.as_view(), name='signup'),
+  path('profile-pic/', views.getprofilepic, name='profilepic')
 ]
